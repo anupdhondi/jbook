@@ -28,9 +28,15 @@ function App() {
       bundle: true,
       write: false,
       plugins: [unpkgPathPlugin()],
+      //to remove warnings on console. while fetching we will get production code only
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        global: 'window',
+      },
     });
     setCode(result.outputFiles[0].text);
   };
+
   return (
     <div>
       <textarea
