@@ -57,11 +57,16 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      {/* we allow direct access between parent html and iframe only if we set sandbox to allow-same-origin 
+      {/* we allow direct access between parent html and iframe only if we set 'sandbox' to 'allow-same-origin' or not setting 'sandbox' 
        and if we fetch parent html and iframe html from the exact same domain,port and protocol */}
-      <iframe src="/test.html" sandbox="allow-same-origin"></iframe>
+      {/* If 'sandbox' set to "" then there wont be any access */}
+      <iframe srcDoc={html} sandbox="allow-same-origin"></iframe>
     </div>
   );
 };
+
+const html = `
+<h1> World!</h1>
+`;
 
 ReactDOM.render(<App />, document.querySelector('#root'));
