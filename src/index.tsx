@@ -8,7 +8,6 @@ const App = () => {
   const ref = useRef<any>();
   const iframRef = useRef<any>();
   const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -24,6 +23,8 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+
+    iframRef.current.srcdoc = html;
 
     const result = await ref.current.build({
       entryPoints: ['index.js'],
@@ -58,7 +59,12 @@ const App = () => {
       <div id="root"></div>
       <script>
        window.addEventListener("message",e => {
-         eval(e.data)
+         try {
+          eval(e.data)
+        } catch (err) {
+           document.querySelector("#root").innerHTML = '<div style="color: red"> <h4>Runtime Error</h4>' + err + '</div>'; 
+           console.error(err);
+          }
        },false)
       </script>
   </body>
@@ -73,11 +79,14 @@ const App = () => {
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
-      <pre>{code}</pre>
       {/* we allow direct access between parent html and iframe only if we set 'sandbox' to 'allow-same-origin' or not setting 'sandbox' 
        and if we fetch parent html and iframe html from the exact same domain,port and protocol */}
       {/* If 'sandbox' set to "" then there wont be any access */}
-      <iframe ref={iframRef} srcDoc={html} sandbox="allow-scripts"></iframe>
+      <iframe
+        title="preview"
+        ref={iframRef}
+        srcDoc={html}
+        sandbox="allow-scripts"></iframe>
     </div>
   );
 };
