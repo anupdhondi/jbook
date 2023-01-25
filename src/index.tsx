@@ -41,12 +41,16 @@ const App = () => {
     setCode(result.outputFiles[0].text);
 
     //eval is build into browser to execute js code which is in string format
-    try {
-      eval(result.outputFiles[0].text);
-    } catch (err) {
-      alert(err);
-    }
+    // try {
+    //   eval(result.outputFiles[0].text);
+    // } catch (err) {
+    //   alert(err);
+    // }
   };
+
+  const html = `
+  <script>${code}</script>
+  `;
 
   return (
     <div id="root">
@@ -60,13 +64,9 @@ const App = () => {
       {/* we allow direct access between parent html and iframe only if we set 'sandbox' to 'allow-same-origin' or not setting 'sandbox' 
        and if we fetch parent html and iframe html from the exact same domain,port and protocol */}
       {/* If 'sandbox' set to "" then there wont be any access */}
-      <iframe srcDoc={html} sandbox="allow-same-origin"></iframe>
+      <iframe srcDoc={html} sandbox="allow-scripts"></iframe>
     </div>
   );
 };
-
-const html = `
-<h1> World!</h1>
-`;
 
 ReactDOM.render(<App />, document.querySelector('#root'));
