@@ -49,7 +49,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div id="root">
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}></textarea>
@@ -57,7 +57,9 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe src="/test.html"></iframe>
+      {/* we allow direct access between parent html and iframe only if we set sandbox to allow-same-origin 
+       and if we fetch parent html and iframe html from the exact same domain,port and protocol */}
+      <iframe src="/test.html" sandbox="allow-same-origin"></iframe>
     </div>
   );
 };
