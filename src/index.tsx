@@ -39,6 +39,13 @@ const App = () => {
     // console.log(result);
 
     setCode(result.outputFiles[0].text);
+
+    //eval is build into browser to execute js code which is in string format
+    try {
+      eval(result.outputFiles[0].text);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
