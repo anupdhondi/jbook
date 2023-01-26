@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import './preview.css';
 
 interface PreviewProps {
   code: string;
@@ -38,12 +39,14 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
       {/* we allow direct access between parent html and iframe only if we set 'sandbox' to 'allow-same-origin' or not setting 'sandbox' 
        and if we fetch parent html and iframe html from the exact same domain,port and protocol
       If 'sandbox' set to "" then there wont be any access */}
-      <iframe
-        title="preview"
-        ref={iframRef}
-        srcDoc={html}
-        sandbox="allow-scripts"
-      />
+      <div className="preview-wrapper">
+        <iframe
+          title="preview"
+          ref={iframRef}
+          srcDoc={html}
+          sandbox="allow-scripts"
+        />
+      </div>
     </>
   );
 };
